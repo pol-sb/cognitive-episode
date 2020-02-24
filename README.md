@@ -1,2 +1,3 @@
 # cognitive-episode
-prueba
+1. Terminar función angulos diedros
+2. Empezar script gaussian
