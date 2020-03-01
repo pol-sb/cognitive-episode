@@ -59,6 +59,7 @@ class energy_data_collector():
                 x.add_row([i , next(iter(j[0].values())), next(iter(j[1].values())), next(iter(j[2].values())), next(iter(j[3].values()))])
                 temp_table2.remove(i)
                 break
+        x.sortby = 'Molecule Name'
         table_title = (f'{USER} - {time.strftime("%d-%m-%y")} - Gaussian Energy Calculation Results')   
         print(x.get_string(title=table_title))
         with open(file_name, 'w+') as f:
