@@ -4,12 +4,13 @@ import mmap
 import os
 import pprint as pp
 import re
+import subprocess
 
 from prettytable import PrettyTable
 from zenlog import log
 
 
-FOLDER_NAMES = ['1-DFTmin_opt', '2-MP2min_sp', '3-M062Xmin_opt', '4-M062Xmax_sp']
+FOLDER_NAMES = ['1-DFTmin_opt', '2-MP2min_sp', '3-M062Xmin_opt', '4-M062Xmax_opt','4-M062Xmax_sp']
 DFT_RE = re.compile(r'SCF Done:.*=\s+([^\n]+\d+\.\d+)')
 M06_RE = re.compile(r'RM062X.*=\s+([^\n]+\d+\.\d+)')
 USER = 'Pol Sanz Berman'
@@ -36,7 +37,7 @@ class energy_data_collector():
                 if folder_name in ['1-DFTmin_opt', '2-MP2min_sp']:
                     energy_value = round(float(DFT_RE.findall(text)[-1]), 5)
                     temp_dict[folder_name] = energy_value
-                elif folder_name in ['3-M062Xmin_opt', '4-M062Xmax_sp']:
+                elif folder_name in ['3-M062Xmin_opt', '4-M062Xmax_opt', '4-M062Xmax_sp']:
                     energy_value = round(float(M06_RE.findall(text)[-1]), 5)
                     temp_dict[folder_name] = energy_value
                 if molecule_name[:-4] not in energies_dict:
@@ -62,7 +63,7 @@ class energy_data_collector():
         print(x.get_string(title=table_title))
         with open(file_name, 'w+') as f:
             f.write(str(x.get_string(title=table_title)))
-        os.system('obabel -i pdb *.pdb -O {}-molecules.svg -d -xC'.format(time.strftime("%d-%m-%y")))
+        subprocess.call([f'obabel -i pdb *.pdb -O {time.strftime("%d-%m-%y")}-molecules.svg -d -xC'], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
         log.info(f'Data correctly saved as \'{file_name}\' in \'{os.getcwd()}\'')
         log.info(f'Molecule structure drawn in \'{time.strftime("%d-%m-%y")}-molecules.svg\' in \'{os.getcwd()}\'')
         return str(x)
