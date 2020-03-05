@@ -1,6 +1,6 @@
 # cognitive-episode
 
-The files on this repo are scripts made for my TFG project in an attempt to simplify calculation:
+The files on this repo are scripts made for my TFG project in an attempt to simplify calculations:
 
 - **aminas_alejandro** contains a python script which can read .xyz files corresponding to cyclic enamines, find the coordinates of the enamine nitrogen and its sorrounding three C atoms and then find the plane between the 3 atoms and its distance to the N atom.
 
