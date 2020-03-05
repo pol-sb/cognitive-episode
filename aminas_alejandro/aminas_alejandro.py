@@ -8,14 +8,14 @@ import subprocess
 class amine_distance():
     def __init__(self):
         at_coord, n_coord = self.atom_index_finder()
-        self.pyramid_calculator(at_coord, n_coord)
+        dist = self.pyramid_calculator(at_coord, n_coord)
 
 
     def atom_index_finder(self):
         temp_file_list = [file for file in os.listdir() if file.endswith('.xyz')]
         for file in temp_file_list:
             filename = file[:-4]
-            subprocess.call([f'obabel -i xyz {file} -O {filename}.pdb -d -xC'], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+            subprocess.call([f'obabel -i xyz {file} -O {filename}.pdb'], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
             with open(f'{filename}.pdb', 'r') as f:
                 nitrog_temp_list = [line.strip() for line in f if ' N ' in line]
                 nitrog_temp_list = nitrog_temp_list[0].split()
@@ -23,7 +23,7 @@ class amine_distance():
                 nitrog_posc = nitrog_temp_list[1]
                 f.seek(0)
                 
-                # Mejorar esto
+                # Following section could be improved
                 bonded_atoms = [line.strip() for line in f if f' {nitrog_posc} ' in line and 'CONECT    ' in line]   
                 bonded_atoms = [element.split()[2:] for element in bonded_atoms if element.split()[1] == '1']
                 bonded_atoms = [element for element in bonded_atoms[0]]
@@ -57,6 +57,7 @@ class amine_distance():
         distance_deno = (m.sqrt((abc[0]**2)+(abc[1]**2)+(abc[2]**2)))
         dist = distance_num/distance_deno
         print('dist: ', dist)
+        return dist
 
 
 
