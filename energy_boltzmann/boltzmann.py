@@ -34,28 +34,25 @@ class find_molecule_percentage():
             molecule['energy'] = molecule['energy'] * 627.51
         min_value = min([molecule['energy'] for molecule in data_list])
         min_names = []
-        
+
         for molecule in data_list:
             molecule_data = list(molecule.values())
             if min_value in molecule_data:
                 min_names.append(molecule_data[0])
             molecule['energy'] -= min_value
-        log.i('Minimum energy {} was found on file(s) {}'.format(min_value, min_names))
+        log.i('Minimum energy {} was found on file(s) {}'.format(
+            min_value, min_names))
 
         time = datetime.datetime.now()
-        with open('min_energy_results_{}'.format(time.strftime("%d-%m-%y")),'w+') as f:
+        with open('min_energy_results_{}'.format(time.strftime("%d-%m-%y")), 'w+') as f:
             for molecule in data_list:
                 if molecule['energy'] != 0:
-                    log.d('{} relative energy:\t{}  kcal/mol.'.format(molecule['name'], molecule['energy']))
-                    f.write('{} \t {}\n'.format(molecule['name'], molecule['energy']))
-        log.i('Results saved in \'min_energy_results_{}\'.'.format((time.strftime("%d-%m-%y"))))
-
-
-            
-
-                
-
-
+                    log.d(
+                        '{} relative energy:\t{}  kcal/mol.'.format(molecule['name'], molecule['energy']))
+                    f.write('{} \t {}\n'.format(
+                        molecule['name'], molecule['energy']))
+        log.i('Results saved in \'min_energy_results_{}\'.'.format(
+            (time.strftime("%d-%m-%y"))))
 
 
 aa = find_molecule_percentage()
