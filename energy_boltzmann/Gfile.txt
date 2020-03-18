@@ -1,0 +1,10 @@
+oxola_10.log: Sum of electronic and thermal Free Energies=         -748.023261
+oxola_1.log: Sum of electronic and thermal Free Energies=         -748.038362
+oxola_2.log: Sum of electronic and thermal Free Energies=         -748.027677
+oxola_3.log: Sum of electronic and thermal Free Energies=         -748.035560
+oxola_4.log: Sum of electronic and thermal Free Energies=         -748.023260
+oxola_5.log: Sum of electronic and thermal Free Energies=         -748.021738
+oxola_6.log: Sum of electronic and thermal Free Energies=         -748.030164
+oxola_7.log: Sum of electronic and thermal Free Energies=         -748.038362
+oxola_8.log: Sum of electronic and thermal Free Energies=         -748.020400
+oxola_9.log: Sum of electronic and thermal Free Energies=         -748.022256
