@@ -8,4 +8,6 @@ The files on this repo are scripts made for my TFG project in an attempt to simp
 
 - **energy_collector** reads gaussian16 .log result files and collects energy values, orders them in a table and creates a .svg grid with the molecules used for calculations. WIP.
 
+- **energy_boltzmann** finds the minimal energy molecule from a given set of results and calculates their proportions in an equilibrium following a Boltzmann distribution.
+
 - **obminimize** is a small testing script which uses open babel empirical energy minimization methods in an attempt to find the lowest energy conformer of a molecule, although it is not always useful because the empirical methods cannot consider some long range interactions present in our set of molecules.
