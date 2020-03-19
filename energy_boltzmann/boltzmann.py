@@ -1,7 +1,9 @@
 import datetime
 import os
 import pprint as pp
+from re import sub
 
+from prettytable import PrettyTable
 from zenlog import log
 
 
@@ -9,7 +11,8 @@ class find_molecule_percentage():
 
     def __init__(self):
         data_list = self.get_data()
-        self.lowest_energy_molecule(data_list)
+        min_value, min_names = self.lowest_energy_molecule(data_list)
+        self.save_values_in_file(data_list, min_value, min_names)
 
     def get_data(self):
 
@@ -34,25 +37,42 @@ class find_molecule_percentage():
             molecule['energy'] = molecule['energy'] * 627.51
         min_value = min([molecule['energy'] for molecule in data_list])
         min_names = []
-
         for molecule in data_list:
             molecule_data = list(molecule.values())
             if min_value in molecule_data:
                 min_names.append(molecule_data[0])
             molecule['energy'] -= min_value
-        log.i('Minimum energy {} was found on file(s) {}'.format(
-            min_value, min_names))
+        log.i('Minimum energy {} was found on file(s) {}'.format(min_value, min_names))
+        return min_value, min_names
+
+    def save_values_in_file(self, data_list, min_value, min_names):
+
+        ordered_data_list = [None] * (len(data_list)+1)
+        for molecule in data_list:
+            numer = int(sub("[^0-9]", "", molecule['name']))
+            ordered_data_list[numer] = molecule 
+        data_list = ordered_data_list
+        for item in data_list:
+            if item is None:
+                data_list.remove(item)
 
         time = datetime.datetime.now()
-        with open('min_energy_results_{}'.format(time.strftime("%d-%m-%y")), 'w+') as f:
-            for molecule in data_list:
-                if molecule['energy'] != 0:
-                    log.d(
-                        '{} relative energy:\t{}  kcal/mol.'.format(molecule['name'], molecule['energy']))
-                    f.write('{} \t {}\n'.format(
-                        molecule['name'], molecule['energy']))
-        log.i('Results saved in \'min_energy_results_{}\'.'.format(
-            (time.strftime("%d-%m-%y"))))
-
+        file_name = ('min_energy_table-{}.out'.format(time.strftime("%d-%m-%y_%H:%M")))
+        x = PrettyTable()
+        x.field_names = ['Molecule Name', 'Energy']
+        energy_list = [molecule['energy'] for molecule in data_list]
+        name_list = [molecule['name'] for molecule in data_list]
+        for j in energy_list:     
+            for i in name_list:
+                x.add_row([i , j])
+                name_list.remove(i)
+                break  
+        table_title = ('Relative energies in kcal/mol')
+        print(x.get_string(title=table_title))
+        with open(file_name, 'w+') as f:
+            f.write('Minimum energy: {}\n'.format(min_value))
+            f.write(str(x.get_string(title=table_title)))
+        log.info('Data correctly saved as \'{}\' in \'{}\''.format(file_name, os.getcwd()))
+        return str(x)
 
 aa = find_molecule_percentage()
