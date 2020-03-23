@@ -9,14 +9,16 @@ import numpy as np
 from prettytable import PrettyTable
 from zenlog import log
 
+KB = 0.0019872041 # kcal/mol
+TEMP = 293.15 # K
 
 class find_molecule_percentage():
 
     def __init__(self):
-        data_list, data_list_init = self.get_data()
+        data_list  = self.get_data()
         min_value, min_names = self.lowest_energy_molecule(data_list)
-        #self.save_values_in_file(data_list, min_value, min_names)
-        self.boltzmann_distr(data_list_init, min_value)
+        boltz_list, boltz_final = self.boltzmann_distr(data_list, min_value)
+        self.save_values_in_file(data_list, min_value, min_names, boltz_list, boltz_final)
 
     def get_data(self):
 
@@ -33,8 +35,17 @@ class find_molecule_percentage():
                     line_dict['name'] = line[0][:-1]
                     line_dict['energy'] = float(line[-1])
                     data_list.append(line_dict)
-            data_list_init = copy.deepcopy(data_list)
-            return data_list, data_list_init
+
+        # Orders data list
+        ordered_data_list = [None] * (len(data_list)+1)
+        for molecule in data_list:
+            numer = int(sub("[^0-9]", "", molecule['name']))
+            ordered_data_list[numer] = molecule 
+        data_list = ordered_data_list
+        for item in data_list:
+            if item is None:
+                data_list.remove(item)
+        return data_list
 
     def lowest_energy_molecule(self, data_list):
 
@@ -51,28 +62,38 @@ class find_molecule_percentage():
         log.i('Minimum energy {} was found on file(s) {}'.format(min_value, min_names))
         return min_value, min_names
 
-    def save_values_in_file(self, data_list, min_value, min_names):
+    def boltzmann_distr(self, data_list, min_value):
+        energy_list = [np.float128(molecule['energy']) for molecule in data_list]
+        boltz_list = [np.exp((0-en)/(KB*TEMP)) for en in energy_list]
 
-        ordered_data_list = [None] * (len(data_list)+1)
-        for molecule in data_list:
-            numer = int(sub("[^0-9]", "", molecule['name']))
-            ordered_data_list[numer] = molecule 
-        data_list = ordered_data_list
-        for item in data_list:
-            if item is None:
-                data_list.remove(item)
+        # Only leaves one energy minimum in energy_list
+        no1_count = 0
+        for count, number in enumerate(boltz_list):
+            if number == 1 and no1_count > 0:
+                del boltz_list[count]
+                no1_count += 1
+            elif number == 1:
+                no1_count += 1   
+
+        boltz_total = sum(boltz_list)
+        boltz_final = [round((bol/boltz_total)*100, 4) for bol in boltz_list]
+        return boltz_list, boltz_final
+
+    def save_values_in_file(self, data_list, min_value, min_names, boltz_list, boltz_final):
 
         time = datetime.datetime.now()
         file_name = ('min_energy_table-{}.out'.format(time.strftime("%d-%m-%y_%H:%M")))
         x = PrettyTable()
-        x.field_names = ['Molecule Name', 'Energy']
+        x.field_names = ['Molecule Name', 'Energy', '% in equilibrium']
         energy_list = [molecule['energy'] for molecule in data_list]
         name_list = [molecule['name'] for molecule in data_list]
         for j in energy_list:     
             for i in name_list:
-                x.add_row([i , j])
                 name_list.remove(i)
-                break  
+                for k in boltz_final:
+                    x.add_row([i, j, k])
+                    boltz_final.remove(k)
+                    break  
         table_title = ('Relative energies in kcal/mol')
         print(x.get_string(title=table_title))
         with open(file_name, 'w+') as f:
@@ -80,21 +101,6 @@ class find_molecule_percentage():
             f.write(str(x.get_string(title=table_title)))
         log.info('Data correctly saved as \'{}\' in \'{}\''.format(file_name, os.getcwd()))
         return str(x)
-
-    def boltzmann_distr(self, data_list_init, min_value):
-        k = 1.380649E-23
-        energy_list = [float(molecule['energy']) for molecule in data_list_init]
-        name_list = [molecule['name'] for molecule in data_list_init]
-        energy_array = (np.array(energy_list))/2625.50E3
-        print('energy_array: ', energy_array)
-        
-
-
-
-        total = sum(np.exp(-energy_array/8.314*293.15))
-        boltz_arr = ((np.exp(-energy_array/8.314*293.15))/total)*100
-        for count, i in enumerate(boltz_arr):
-            print(f'{name_list[count]} {i}')
 
 
 
