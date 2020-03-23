@@ -1,8 +1,11 @@
+import copy
 import datetime
+import math as m
 import os
 import pprint as pp
 from re import sub
 
+import numpy as np
 from prettytable import PrettyTable
 from zenlog import log
 
@@ -10,15 +13,17 @@ from zenlog import log
 class find_molecule_percentage():
 
     def __init__(self):
-        data_list = self.get_data()
+        data_list, data_list_init = self.get_data()
         min_value, min_names = self.lowest_energy_molecule(data_list)
-        self.save_values_in_file(data_list, min_value, min_names)
+        #self.save_values_in_file(data_list, min_value, min_names)
+        self.boltzmann_distr(data_list_init, min_value)
 
     def get_data(self):
 
         # Gets energies stored in *.txt files
         file_list = [file for file in os.listdir() if file.endswith('.txt')]
         for current_file in file_list:
+            log.i('Reading \'{}\'.'.format(current_file))
             with open(current_file, 'r') as f:
                 text = f.readlines()
                 data_list = []
@@ -28,7 +33,8 @@ class find_molecule_percentage():
                     line_dict['name'] = line[0][:-1]
                     line_dict['energy'] = float(line[-1])
                     data_list.append(line_dict)
-            return data_list
+            data_list_init = copy.deepcopy(data_list)
+            return data_list, data_list_init
 
     def lowest_energy_molecule(self, data_list):
 
@@ -74,5 +80,26 @@ class find_molecule_percentage():
             f.write(str(x.get_string(title=table_title)))
         log.info('Data correctly saved as \'{}\' in \'{}\''.format(file_name, os.getcwd()))
         return str(x)
+
+    def boltzmann_distr(self, data_list_init, min_value):
+        k = 1.380649E-23
+        energy_list = [float(molecule['energy']) for molecule in data_list_init]
+        name_list = [molecule['name'] for molecule in data_list_init]
+        energy_array = (np.array(energy_list))/2625.50E3
+        print('energy_array: ', energy_array)
+        
+
+
+
+        total = sum(np.exp(-energy_array/8.314*293.15))
+        boltz_arr = ((np.exp(-energy_array/8.314*293.15))/total)*100
+        for count, i in enumerate(boltz_arr):
+            print(f'{name_list[count]} {i}')
+
+
+
+# Después necesito saber qué porcentaje de cada molécula tengo en equilibrio, asumiendo una distribución de Boltzmann (son conformaciones de una misma molécula que están en equilibrio). 
+# La fórmula es Pi/Pj = e((Gi-Gj)/KbT)  (e elevado a (Gi-Gj/KbT, puedes ver la fórmula en el artículo de la Wikipedia de la distribución de Boltzmann).
+# Donde Kb es la constante de Boltzmann i T la temperatura (supondriamos T ambiente, 20 grados, en K, supongo...)
 
 aa = find_molecule_percentage()
