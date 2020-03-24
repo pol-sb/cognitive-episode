@@ -59,14 +59,14 @@ class find_molecule_percentage():
             if min_value in molecule_data:
                 min_names.append(molecule_data[0])
             molecule['energy'] -= min_value
-        log.i('Minimum energy {} was found on file(s) {}'.format(min_value, min_names))
+        log.i('Minimum energy {} was found on file(s) {}.'.format(min_value, min_names))
         return min_value, min_names
 
     def boltzmann_distr(self, data_list, min_value):
         energy_list = [np.float128(molecule['energy']) for molecule in data_list]
         boltz_list = [np.exp((0-en)/(KB*TEMP)) for en in energy_list]
 
-        # Only leaves one energy minimum in energy_list
+        # Only leaves one energy minimum in boltz_list
         no1_count = 0
         for count, number in enumerate(boltz_list):
             if number == 1 and no1_count > 0:
@@ -87,13 +87,41 @@ class find_molecule_percentage():
         x.field_names = ['Molecule Name', 'Energy', '% in equilibrium']
         energy_list = [molecule['energy'] for molecule in data_list]
         name_list = [molecule['name'] for molecule in data_list]
-        for j in energy_list:     
-            for i in name_list:
-                name_list.remove(i)
-                for k in boltz_final:
-                    x.add_row([i, j, k])
-                    boltz_final.remove(k)
-                    break  
+
+        # Only leaves one energy minimum in energy_list
+        no1_count = 0
+        for count, number in enumerate(energy_list):
+            if number == 0 and no1_count > 0:
+                del boltz_list[count]
+                no1_count += 1
+                deleted_index = count
+            elif number == 0:
+                no1_count += 1 
+
+        result_dict_list = []
+        for name in name_list:
+            molecule_dict = {}
+            molecule_dict['name'] = name
+            result_dict_list.append(molecule_dict)
+
+        count_min = 0
+        for molecule in result_dict_list:
+            for energy in energy_list:
+                molecule['energy'] = energy
+                energy_list.remove(energy)
+                count_min += 1
+                break
+
+        boltz_final.insert(deleted_index, 0.0)
+        for molecule in result_dict_list:
+            for percent in boltz_final:
+                molecule['percent'] = percent
+                boltz_final.remove(percent)
+                break
+
+        for molecule in result_dict_list:
+            x.add_row([molecule['name'], molecule['energy'], molecule['percent']])
+                       
         table_title = ('Relative energies in kcal/mol')
         print(x.get_string(title=table_title))
         with open(file_name, 'w+') as f:
@@ -101,11 +129,5 @@ class find_molecule_percentage():
             f.write(str(x.get_string(title=table_title)))
         log.info('Data correctly saved as \'{}\' in \'{}\''.format(file_name, os.getcwd()))
         return str(x)
-
-
-
-# Después necesito saber qué porcentaje de cada molécula tengo en equilibrio, asumiendo una distribución de Boltzmann (son conformaciones de una misma molécula que están en equilibrio). 
-# La fórmula es Pi/Pj = e((Gi-Gj)/KbT)  (e elevado a (Gi-Gj/KbT, puedes ver la fórmula en el artículo de la Wikipedia de la distribución de Boltzmann).
-# Donde Kb es la constante de Boltzmann i T la temperatura (supondriamos T ambiente, 20 grados, en K, supongo...)
 
 aa = find_molecule_percentage()
