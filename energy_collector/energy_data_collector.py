@@ -10,7 +10,6 @@ from prettytable import PrettyTable
 from zenlog import log
 
 
-FOLDER_NAMES = ['1-DFTmin_opt', '2-MP2min_sp', '3-M062Xmin_opt', '4-M062Xmax_opt','4-M062Xmax_sp']
 DFT_RE = re.compile(r'SCF Done:.*=\s+([^\n]+\d+\.\d+)')
 M06_RE = re.compile(r'RM062X.*=\s+([^\n]+\d+\.\d+)')
 USER = 'Pol Sanz Berman'
@@ -24,7 +23,9 @@ class energy_data_collector():
     def get_energies_from_files(self):
         log.d('Getting energies from files.')
         energies_dict = {}
-        for folder_name in FOLDER_NAMES:
+        folder_names = [folder for folder in next(os.walk('.'))[1] if folder[0].isnumeric()]
+        folder_names.sort()
+        for folder_name in folder_names:
             try:
                 temp_file_list = [file for file in os.listdir(folder_name) if file.endswith('.log')]
             except FileNotFoundError:
