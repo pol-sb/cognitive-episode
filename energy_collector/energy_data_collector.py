@@ -17,8 +17,8 @@ USER = 'Pol Sanz Berman'
 class energy_data_collector():
 
     def __init__(self):
-        energies = self.get_energies_from_files()
-        self.print_energies_on_file(energies)
+        energies, folder_names = self.get_energies_from_files()
+        self.print_energies_on_file(energies, folder_names)
 
     def get_energies_from_files(self):
         log.d('Getting energies from files.')
@@ -35,10 +35,10 @@ class energy_data_collector():
                 temp_dict = {}
                 with open(folder_name+'/'+molecule_name, 'r') as f:
                     text = f.read()
-                if ['DFTmin', 'MP2min'] in folder_name:
+                if 'DFT' in folder_name or 'MP2min' in folder_name:
                     energy_value = round(float(DFT_RE.findall(text)[-1]), 5)
                     temp_dict[folder_name] = energy_value
-                elif ['M062X', 'M062Xmin_opt', 'M062Xmax_opt', 'M062Xmax_sp'] in folder_name :
+                elif 'M062X' in folder_name:
                     energy_value = round(float(M06_RE.findall(text)[-1]), 5)
                     temp_dict[folder_name] = energy_value
                 if molecule_name[:-4] not in energies_dict:
@@ -46,13 +46,14 @@ class energy_data_collector():
                 else:
                     energies_dict[molecule_name[:-4]].append(temp_dict)
         log.i(f'Energies from {len(energies_dict.keys())} files recovered.')
-        return energies_dict
+        return energies_dict, folder_names
 
-    def print_energies_on_file(self, energy_dict):
+    def print_energies_on_file(self, energy_dict, folder_names):
         time = datetime.datetime.now()
         file_name = (f'{USER} - {time.strftime("%d-%m-%y")}.txt')
         x = PrettyTable()
-        x.field_names = ['Molecule Name','DFTmin_opt', 'MP2min_sp', 'M062Xmin_opt', 'M062Xmax_opt']
+        folder_names.insert(0, 'Molecule Name')
+        x.field_names = folder_names 
         temp_table = list(energy_dict.values())      
         temp_table2 = list(energy_dict.keys())
         for j in temp_table:     
