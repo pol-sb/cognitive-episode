@@ -35,10 +35,10 @@ class energy_data_collector():
                 temp_dict = {}
                 with open(folder_name+'/'+molecule_name, 'r') as f:
                     text = f.read()
-                if folder_name in ['1-DFTmin_opt', '2-MP2min_sp']:
+                if ['DFTmin', 'MP2min'] in folder_name:
                     energy_value = round(float(DFT_RE.findall(text)[-1]), 5)
                     temp_dict[folder_name] = energy_value
-                elif folder_name in ['3-M062Xmin_opt', '4-M062Xmax_opt', '4-M062Xmax_sp']:
+                elif ['M062X', 'M062Xmin_opt', 'M062Xmax_opt', 'M062Xmax_sp'] in folder_name :
                     energy_value = round(float(M06_RE.findall(text)[-1]), 5)
                     temp_dict[folder_name] = energy_value
                 if molecule_name[:-4] not in energies_dict:
