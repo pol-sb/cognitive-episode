@@ -1,6 +1,6 @@
+import argparse
 import datetime
-import json
-import mmap
+import getpass
 import os
 import pprint as pp
 import re
@@ -12,13 +12,22 @@ from zenlog import log
 
 DFT_RE = re.compile(r'SCF Done:.*=\s+([^\n]+\d+\.\d+)')
 M06_RE = re.compile(r'RM062X.*=\s+([^\n]+\d+\.\d+)')
-USER = 'Pol Sanz Berman'
+USER = getpass.getuser()
+
 
 class energy_data_collector():
 
     def __init__(self):
+        args = self.command_parser()        
         energies, folder_names = self.get_energies_from_files()
-        self.print_energies_on_file(energies, folder_names)
+        self.print_energies_on_file(energies, folder_names, args)
+
+    def command_parser(self):
+        parser = argparse.ArgumentParser(description='Calculate energy results.')
+        parser.add_argument('-mail', type=str, nargs='?', default=' ', metavar='m', dest='mail',
+                        help='Input mail adress to recieve text results.')
+        args = parser.parse_args()
+        return args
 
     def get_energies_from_files(self):
         log.d('Getting energies from files.')
@@ -48,7 +57,7 @@ class energy_data_collector():
         log.i(f'Energies from {len(energies_dict.keys())} files recovered.')
         return energies_dict, folder_names
 
-    def print_energies_on_file(self, energy_dict, folder_names):
+    def print_energies_on_file(self, energy_dict, folder_names, args):
         time = datetime.datetime.now()
         file_name = (f'{USER} - {time.strftime("%d-%m-%y")}.txt')
         x = PrettyTable()
@@ -69,6 +78,10 @@ class energy_data_collector():
         subprocess.call([f'obabel -i pdb *.pdb -O {time.strftime("%d-%m-%y")}-molecules.svg -d -xC'], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
         log.info(f'Data correctly saved as \'{file_name}\' in \'{os.getcwd()}\'')
         log.info(f'Molecule structure drawn in \'{time.strftime("%d-%m-%y")}-molecules.svg\' in \'{os.getcwd()}\'')
+        if args.mail != ' ':
+            email = args.mail
+            subprocess.call(['cat "{}" | mail -s "Results - {}"  {}'.format(file_name, time.strftime("%d-%m-%y"), email)], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+            log.info('Results delivery attempted in {}'.format(email))
         return str(x)
  
 
