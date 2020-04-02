@@ -67,7 +67,13 @@ class energy_data_collector():
         temp_table2 = list(energy_dict.keys())
         for j in temp_table:     
             for i in temp_table2:
-                x.add_row([i , next(iter(j[0].values())), next(iter(j[1].values())), next(iter(j[2].values())), next(iter(j[3].values()))])
+                cont = 0
+                lista1 = [i]
+                while cont < len(j):
+                    valor = list(j[cont].values())[0]
+                    lista1.append(valor)
+                    cont += 1
+                x.add_row(lista1)
                 temp_table2.remove(i)
                 break
         x.sortby = 'Molecule Name'
