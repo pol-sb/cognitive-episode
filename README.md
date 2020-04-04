@@ -10,4 +10,6 @@ The files on this repo are scripts made for my TFG project in an attempt to simp
 
 - **energy_boltzmann** finds the minimal energy molecule from a given set of results and calculates their proportions in an equilibrium following a Boltzmann distribution.
 
+- **energy_difference** finds the difference between energies from a given set of results calculated at vacuum and water.
+
 - **obminimize** is a small testing script which uses open babel empirical energy minimization methods in an attempt to find the lowest energy conformer of a molecule, although it is not always useful because the empirical methods cannot consider some long range interactions present in our set of molecules.
