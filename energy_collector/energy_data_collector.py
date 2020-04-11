@@ -6,12 +6,15 @@ import pprint as pp
 import re
 import subprocess
 
+import prettytable
 from prettytable import PrettyTable
 from zenlog import log
 
 
 DFT_RE = re.compile(r'SCF Done:.*=\s+([^\n]+\d+\.\d+)')
 M06_RE = re.compile(r'RM062X.*=\s+([^\n]+\d+\.\d+)')
+FRQ_RE = re.compile(r'Free Energies=\s+([^\n]+\d+\.\d+)')
+ENT_RE = re.compile(r'Enthalpies=\s+([^\n]+\d+\.\d+)')
 USER = getpass.getuser()
 
 
@@ -50,6 +53,11 @@ class energy_data_collector():
                 elif 'M062X' in folder_name:
                     energy_value = round(float(M06_RE.findall(text)[-1]), 5)
                     temp_dict[folder_name] = energy_value
+                elif 'freq' in folder_name:
+                    free_energ = round(float(FRQ_RE.findall(text)[-1]), 5)
+                    enthalp = round(float(ENT_RE.findall(text)[-1]), 5)
+                    energy_value = 'Free Energy: ' + str(free_energ) +'\nEnthalpy: ' + str(enthalp)
+                    temp_dict[folder_name] = energy_value
                 if molecule_name[:-4] not in energies_dict:
                     energies_dict[molecule_name[:-4]] = [temp_dict]
                 else:
@@ -70,14 +78,21 @@ class energy_data_collector():
                 cont = 0
                 lista1 = [i]
                 while cont < len(j):
-                    valor = list(j[cont].values())[0]
+                    try:
+                        valor = list(j[cont].values())[0]
+                    except IndexError:
+                        valor = '    '
                     lista1.append(valor)
                     cont += 1
-                x.add_row(lista1)
+                try:
+                    x.add_row(lista1)
+                except Exception:
+                    log.e('There is not the same number of files in all the directories. Energy collection halted...')
                 temp_table2.remove(i)
                 break
         x.sortby = 'Molecule Name'
-        table_title = (f'{USER} - {time.strftime("%d-%m-%y")} - Gaussian Energy Calculation Results')   
+        table_title = (f'{USER} - {time.strftime("%d-%m-%y")} - Gaussian Energy Calculation Results')
+        x.hrules = prettytable.ALL
         print(x.get_string(title=table_title))
         with open(file_name, 'w+') as f:
             f.write(str(x.get_string(title=table_title)))
