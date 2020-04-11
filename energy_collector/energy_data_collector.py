@@ -73,6 +73,7 @@ class energy_data_collector():
         x.field_names = folder_names 
         temp_table = list(energy_dict.values())      
         temp_table2 = list(energy_dict.keys())
+        err_cont = 0
         for j in temp_table:     
             for i in temp_table2:
                 cont = 0
@@ -84,12 +85,11 @@ class energy_data_collector():
                         valor = '    '
                     lista1.append(valor)
                     cont += 1
-                err_cont = 0
                 try:
                     x.add_row(lista1)
                 except Exception:
                     if err_cont == 0:
-                        log.e('There is not the same number of files in all the directories. Energy collection halted...')
+                        log.w('There is not the same number of files in all the directories. Some results might be missing from the table...')
                         err_cont += 1
                 temp_table2.remove(i)
                 break
