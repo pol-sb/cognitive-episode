@@ -13,9 +13,9 @@ for file in file_names:
             line = line.strip().split()
             try:
                 difference = abs(float(line[1])-float(line[2]))*627.51
-                for value in line:
-                    if value.isdigit():
-                        value = round(value, 5)
+                for index1, value in enumerate(line):
+                    if (value.lstrip('+-').replace('.','')).isdigit():
+                        line[index1] = str(round(float(value), 5))
                 line.append(str(round(difference, 2))+'\n')
                 log.i(f'Energy difference in {line[0]} is {difference:.5}')
                 line = '\t'.join(line)
