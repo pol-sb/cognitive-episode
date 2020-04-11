@@ -84,10 +84,13 @@ class energy_data_collector():
                         valor = '    '
                     lista1.append(valor)
                     cont += 1
+                err_cont = 0
                 try:
                     x.add_row(lista1)
                 except Exception:
-                    log.e('There is not the same number of files in all the directories. Energy collection halted...')
+                    if err_cont == 0:
+                        log.e('There is not the same number of files in all the directories. Energy collection halted...')
+                        err_cont += 1
                 temp_table2.remove(i)
                 break
         x.sortby = 'Molecule Name'
