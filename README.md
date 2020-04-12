@@ -15,3 +15,5 @@ This repository contains scripts made for my dissertation in an attempt to simpl
 - **energy_difference** finds the difference between energies from a given set of results calculated at vacuum and water.
 
 - **obminimize** is a small testing script which uses open babel empirical energy minimization methods in an attempt to find the lowest energy conformer of a molecule, although it is not always useful because the empirical methods cannot consider some long range interactions present in our set of molecules.
+
+![banner](/media/crop2.jpg)
