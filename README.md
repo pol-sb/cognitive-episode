@@ -2,13 +2,13 @@
 
 ![banner](/media/crop.jpg)
 
-The files on this repositorie are scripts made for my TFG project in an attempt to simplify calculations:
+This repository contains scripts made for my dissertation in an attempt to simplify calculations:
 
 - **aminas_alejandro** contains a python script which can read .xyz files corresponding to cyclic enamines, find the coordinates of the enamine nitrogen and its sorrounding three C atoms and then find the plane between the 3 atoms and its distance to the N atom.
 
-- **diedros_alejandro** reads .xyz files and calculates the dihedral angle between 4 given atoms.
+- **diedros_alejandro** reads .xyz input files and calculates the dihedral angle between 4 given atoms.
 
-- **energy_collector** reads gaussian16 .log result files and collects energy values, orders them in a table and creates a .svg grid with the molecules used for calculations. WIP.
+- **energy_collector** reads gaussian16 result (.log) files and collects energy values, orders them in a table and creates a .svg grid with the molecules used for calculations. WIP.
 
 - **energy_boltzmann** finds the minimal energy molecule from a given set of results and calculates their proportions in an equilibrium following a Boltzmann distribution.
 
