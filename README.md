@@ -1,6 +1,6 @@
 # cognitive-episode
 
-![banner](/media/1584720165603.jpg =640x320)
+![banner](/media/1584720165603.jpg width="200" height="400")
 
 The files on this repositorie are scripts made for my TFG project in an attempt to simplify calculations:
 
