@@ -103,9 +103,11 @@ class energy_data_collector():
         log.info(f'Data correctly saved as \'{file_name}\' in \'{os.getcwd()}\'')
         log.info(f'Molecule structure drawn in \'{time.strftime("%d-%m-%y")}-molecules.svg\' in \'{os.getcwd()}\'')
         if args.mail != ' ':
+            full_path = os.getcwd()
+            folder_name = os.path.basename(full_path)
             email = args.mail
-            subprocess.call(['cat "{}" | mail -s "Results - {}"  {}'.format(file_name, time.strftime("%d-%m-%y"), email)], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
-            log.info('Results delivery attempted in {}'.format(email))
+            subprocess.call(['echo "Calculations from folder \'{}\' done, see results attached..." | mail -s "Results - {}" -A "{}" {}'.format(folder_name, folder_name, file_name, email)], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+            log.info('Results delivery attempted in \'{}\''.format(email))
         return str(x)
  
 
