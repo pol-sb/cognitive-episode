@@ -54,7 +54,8 @@ class gaussian_file_calculator():
         config_dict['chk'] = 'chkfile.chk'
 
         for calc_number in range(ncalc):
-            
+            log.d(f'For calculation number {calc_number}, select calculation type:'
+            '\n1) DFTmin_opt\n2) MP2min_sp\n3) M062Xmin_opt\n4) M062max_sp')    
             
 
         pp.pprint(config_dict)

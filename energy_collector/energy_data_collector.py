@@ -47,21 +47,26 @@ class energy_data_collector():
                 temp_dict = {}
                 with open(folder_name+'/'+molecule_name, 'r') as f:
                     text = f.read()
-                if 'DFT' in folder_name or 'MP2min' in folder_name:
-                    energy_value = round(float(DFT_RE.findall(text)[-1]), 5)
-                    temp_dict[folder_name] = energy_value
-                elif 'M062X' in folder_name:
-                    energy_value = round(float(M06_RE.findall(text)[-1]), 5)
-                    temp_dict[folder_name] = energy_value
-                elif 'freq' in folder_name:
-                    free_energ = round(float(FRQ_RE.findall(text)[-1]), 5)
-                    enthalp = round(float(ENT_RE.findall(text)[-1]), 5)
-                    energy_value = 'Free Energy: ' + str(free_energ) +'\nEnthalpy: ' + str(enthalp)
-                    temp_dict[folder_name] = energy_value
-                if molecule_name[:-4] not in energies_dict:
-                    energies_dict[molecule_name[:-4]] = [temp_dict]
-                else:
-                    energies_dict[molecule_name[:-4]].append(temp_dict)
+                try:
+                    if 'DFT' in folder_name or 'MP2min' in folder_name:
+                        energy_value = round(float(DFT_RE.findall(text)[-1]), 5)
+                        temp_dict[folder_name] = energy_value
+                    elif 'M062X' in folder_name:
+                        energy_value = round(float(M06_RE.findall(text)[-1]), 5)
+                        temp_dict[folder_name] = energy_value
+                    elif 'freq' in folder_name:
+                        free_energ = round(float(FRQ_RE.findall(text)[-1]), 5)
+                        enthalp = round(float(ENT_RE.findall(text)[-1]), 5)
+                        energy_value = 'Free Energy: ' + str(free_energ) +'\nEnthalpy: ' + str(enthalp)
+                        temp_dict[folder_name] = energy_value
+                    if molecule_name[:-4] not in energies_dict:
+                        energies_dict[molecule_name[:-4]] = [temp_dict]
+                    else:
+                        energies_dict[molecule_name[:-4]].append(temp_dict)
+                except IndexError:
+                    log.e(f'Error on \'{folder_name+"/"+molecule_name}\'.')
+                    temp_dict[folder_name] = 'missing value'
+
         log.i(f'Energies from {len(energies_dict.keys())} files recovered.')
         return energies_dict, folder_names
 
