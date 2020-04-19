@@ -104,14 +104,15 @@ class energy_data_collector():
         print(x.get_string(title=table_title))
         with open(file_name, 'w+') as f:
             f.write(str(x.get_string(title=table_title)))
-        subprocess.call([f'obabel -i pdb *.pdb -O {time.strftime("%d-%m-%y")}-molecules.svg -d -xC'], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+        image_name = f'{time.strftime("%d-%m-%y")}-molecules.svg'
+        subprocess.call([f'obabel -i pdb *.pdb -O {image_name} -d -xC'], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
         log.info(f'Data correctly saved as \'{file_name}\' in \'{os.getcwd()}\'')
         log.info(f'Molecule structure drawn in \'{time.strftime("%d-%m-%y")}-molecules.svg\' in \'{os.getcwd()}\'')
         if args.mail != ' ':
             full_path = os.getcwd()
             folder_name = os.path.basename(full_path)
             email = args.mail
-            subprocess.call(['echo "Calculations from folder \'{}\' done, see results attached..." | mail -s "Results - {}" -A "{}" {}'.format(folder_name, folder_name, file_name, email)], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+            subprocess.call(['echo "Calculations from folder \'{}\' done, see results attached..." | mail -s "Results - {}" -A "{}" -A "{}" {}'.format(folder_name, folder_name, file_name, image_name, email)], shell=True, stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
             log.info('Results delivery attempted in \'{}\''.format(email))
         return str(x)
  
