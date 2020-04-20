@@ -60,7 +60,7 @@ class gaussian_file_calculator():
             method_list = ['B3LYP', 'MP2', 'M062X']
             basis_list = ['6-31G(d)', '6-311+G(d,p)']
                     
-            log.d(f'For calculation number {calc_number}, choose calculation type preset or type \'custom\' for custom settings...')
+            log.d(f'For calculation number {calc_number}, choose a calculation type preset by its number or type \'custom\' for custom settings...')
             for val, name in enumerate(type_list):
                 print(f'{val:15}) {name}')
             calc_type = input()
