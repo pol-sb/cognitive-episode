@@ -1,0 +1,42 @@
+      i     | Results from file 'cs_16_jv': 
+     ...    | Plane equation: 0.559178x + 3.373125999999999y + 3.9045920000000005z + -3.6307750740000007
+     ...    | Coordinates from surrounding atoms: [[1.661, -0.36, 1.003], [2.275, 1.366, -0.576], [-0.079, 1.108, -0.016]]
+     ...    | Nitrogen coordinates: [1.236 0.885 0.339]
+      i     | Nitrogen planar distance: 0.26382119905777407 (A)
+     [!]    | File 'cs_16_jv' done, proceeding with next file if possible...
+
+      i     | Results from file 'cs_45': 
+     ...    | Plane equation: -2.923121999999998x + 3.059712y + -2.928876000000004z + 30.197516616000016
+     ...    | Coordinates from surrounding atoms: [[-7.976, -16.4, 1.138], [-6.284, -14.594, 1.336], [-6.076, -16.103, -0.448]]
+     ...    | Nitrogen coordinates: [ -6.997 -15.6     0.567]
+      i     | Nitrogen planar distance: 0.24452753946261274 (A)
+     [!]    | File 'cs_45' done, proceeding with next file if possible...
+
+      i     | Results from file 'cs_60_jv': 
+     ...    | Plane equation: 1.301422x + 1.1528459999999998y + 4.871913z + -1.6677349170000002
+     ...    | Coordinates from surrounding atoms: [[1.545, -0.868, 0.135], [2.187, 1.357, -0.563], [-0.114, 0.971, 0.143]]
+     ...    | Nitrogen coordinates: [1.21  0.568 0.192]
+      i     | Nitrogen planar distance: 0.28943657386799576 (A)
+     [!]    | File 'cs_60_jv' done, proceeding with next file if possible...
+
+      i     | Results from file 'cs_40': 
+     ...    | Plane equation: 0.057428999999996844x + 3.6545650000000007y + -3.7055310000000024z + 59.91698673600002
+     ...    | Coordinates from surrounding atoms: [[3.658, -18.3, -1.822], [3.645, -16.497, -0.044], [5.706, -17.301, -0.805]]
+     ...    | Nitrogen coordinates: [  4.277 -17.546  -0.831]
+      i     | Nitrogen planar distance: 0.16928374804809188 (A)
+     [!]    | File 'cs_40' done, proceeding with next file if possible...
+
+      i     | Results from file 'enamina1': 
+     ...    | Plane equation: 1.111969x + 0.7123419999999999y + -5.152380000000001z + 0.483213852
+     ...    | Coordinates from surrounding atoms: [[-5.256, 3.606, -0.542], [-2.902, 3.613, -0.033], [-3.986, 1.421, -0.57]]
+     ...    | Nitrogen coordinates: [-4.053  2.785 -0.398]
+      i     | Nitrogen planar distance: 0.002053650352770508 (A)
+     [!]    | File 'enamina1' done, proceeding with next file if possible...
+
+      i     | Results from file 'enamina2': 
+     ...    | Plane equation: 0.6989369999999999x + 0.7579080000000001y + -5.221008z + -1.2799185780000006
+     ...    | Coordinates from surrounding atoms: [[-5.41, 3.757, -0.424], [-3.046, 3.43, -0.155], [-4.438, 1.414, -0.634]]
+     ...    | Nitrogen coordinates: [-4.326  2.777 -0.461]
+      i     | Nitrogen planar distance: 0.03909843232271161 (A)
+     [!]    | File 'enamina2' done, proceeding with next file if possible...
+

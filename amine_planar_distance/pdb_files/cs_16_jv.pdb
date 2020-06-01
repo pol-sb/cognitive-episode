@@ -1,0 +1,67 @@
+HEADER
+REMARK Spartan '18 exported cyclobutane.alltrans.propanal.pyrro.nitrostyrene.DFT.45.2
+HETATM    1  C   UNK  0001      -2.526   0.918  -0.042
+HETATM    2  H   UNK  0001      -3.272   1.325   0.649
+HETATM    3  C   UNK  0001      -1.196   0.771   0.651
+HETATM    4  C   UNK  0001       1.661  -0.360   1.003
+HETATM    5  C   UNK  0001       2.275   1.366  -0.576
+HETATM    6  H   UNK  0001       1.887  -0.178   2.060
+HETATM    7  C   UNK  0001       2.924  -0.772   0.245
+HETATM    8  C   UNK  0001       3.518   0.576  -0.171
+HETATM    9  H   UNK  0001       2.411   2.446  -0.483
+HETATM   10  H   UNK  0001       3.600  -1.375   0.853
+HETATM   11  H   UNK  0001       0.874  -1.113   0.942
+HETATM   12  H   UNK  0001       4.006   1.055   0.683
+HETATM   13  H   UNK  0001       4.243   0.501  -0.983
+HETATM   14  H   UNK  0001       2.001   1.139  -1.616
+HETATM   15  H   UNK  0001       2.640  -1.345  -0.640
+HETATM   16  C   UNK  0001      -1.218   0.193   2.042
+HETATM   17  N   UNK  0001      -0.914  -1.673  -1.037
+HETATM   18  O   UNK  0001       0.139  -1.531  -1.620
+HETATM   19  O   UNK  0001      -1.069  -2.343  -0.041
+HETATM   20  H   UNK  0001      -1.359  -0.894   2.046
+HETATM   21  H   UNK  0001      -0.295   0.415   2.579
+HETATM   22  H   UNK  0001      -2.046   0.632   2.608
+HETATM   23  C   UNK  0001      -0.079   1.108  -0.016
+HETATM   24  H   UNK  0001      -0.188   1.611  -0.978
+HETATM   25  N   UNK  0001       1.236   0.885   0.339
+HETATM   26  H   UNK  0001      -2.437   1.626  -0.873
+HETATM   27  C   UNK  0001      -3.060  -0.416  -0.595
+HETATM   28  H   UNK  0001      -4.031  -0.258  -1.075
+HETATM   29  H   UNK  0001      -3.214  -1.140   0.208
+HETATM   30  C   UNK  0001      -2.139  -1.026  -1.638
+HETATM   31  H   UNK  0001      -1.753  -0.298  -2.350
+HETATM   32  H   UNK  0001      -2.621  -1.845  -2.175
+CONECT    1    2    3   26   27
+CONECT    2    1
+CONECT    3    1   16   23
+CONECT    4   11    6    7   25
+CONECT    5    8    9   14   25
+CONECT    6    4
+CONECT    7    4   10   15    8
+CONECT    8    5   12   13    7
+CONECT    9    5
+CONECT   10    7
+CONECT   11    4
+CONECT   12    8
+CONECT   13    8
+CONECT   14    5
+CONECT   15    7
+CONECT   16    3   20   21   22
+CONECT   17   18   19   30
+CONECT   18   17
+CONECT   19   17
+CONECT   20   16
+CONECT   21   16
+CONECT   22   16
+CONECT   23   24    3   25
+CONECT   24   23
+CONECT   25    5    4   23
+CONECT   26    1
+CONECT   27   28   29    1   30
+CONECT   28   27
+CONECT   29   27
+CONECT   30   31   32   27   17
+CONECT   31   30
+CONECT   32   30
+END
