@@ -1,12 +1,10 @@
 # cognitive-episode
 
-![banner](/.media/crop.jpg)
+This repository contains python scripts made during my dissertation in an attempt to simplify calculations and ease some data gathering tasks:
 
-This repository contains scripts made for my dissertation in an attempt to simplify calculations:
+- **amine_planar_distance** contains a python script which can read .xyz files corresponding to cyclic enamines, find the coordinates of the enamine nitrogen and its sorrounding three C atoms and then find the plane between the 3 atoms and its distance to the N atom.
 
-- **aminas_alejandro** contains a python script which can read .xyz files corresponding to cyclic enamines, find the coordinates of the enamine nitrogen and its sorrounding three C atoms and then find the plane between the 3 atoms and its distance to the N atom.
-
-- **diedros_alejandro** reads .xyz input files and calculates the dihedral angle between 4 given atoms.
+- **dihedral_calculator** reads .xyz input files and calculates the dihedral angle between 4 given atoms.
 
 - **energy_collector** reads gaussian16 result (.log) files and collects energy values, orders them in a table and creates a .svg grid with the molecules used for calculations. WIP.
 
