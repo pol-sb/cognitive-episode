@@ -80,7 +80,7 @@ class find_molecule_percentage():
             min_value = min([molecule['energy'] for molecule in data_list])
             min_names = []
             for molecule in data_list:
-                molecule_data = list(molecule-34653.804932932.values())
+                molecule_data = list(molecule.values())
                 if min_value in molecule_data:
                     min_names.append(molecule_data[0])
                 molecule['energy'] -= min_value
@@ -120,15 +120,17 @@ class find_molecule_percentage():
         name_list = [molecule['name'] for molecule in data_list]
 
         # Only leaves one energy minimum in energy_list
-        if self.user_input == '1':
-            no1_count = 0
-            for count, number in enumerate(energy_list):
-                if number == 0:# no1_count > 0:
-                    del boltz_list[count]
-                    no1_count += 1
-                    deleted_index = count
-                elif number == 0:
-                    no1_count += 1
+        # if self.user_input == '1':
+        #     no1_count = 0
+        #     print('min_value: ', min_value)
+        #     for count, number in enumerate(energy_list):
+        #         print('number: ', number)
+        #         if number == min_value and no1_count > 0:
+        #             del boltz_list[count]
+        #             no1_count += 1
+        #             deleted_index = count
+        #         elif number == min_value:
+        #             no1_count += 1
 
         result_dict_list = []
         for name in name_list:
@@ -145,17 +147,21 @@ class find_molecule_percentage():
                 break
 
         if self.user_input == '1':
-            boltz_final.insert(deleted_index, 0.0)
+            suma_fin = 0
+            # boltz_final.insert(deleted_index, 0.0)
             for molecule in result_dict_list:
                 for percent in boltz_final:
                     molecule['percent'] = percent
+                    suma_fin += percent
                     boltz_final.remove(percent)
                     break
 
         elif self.user_input == '2':
+            suma_fin = 0
             for molecule in result_dict_list:
                 for percent in boltz_final:
                     molecule['percent'] = percent
+                    suma_fin += percent
                     boltz_final.remove(percent)
                     break
 
@@ -167,6 +173,7 @@ class find_molecule_percentage():
         with open(file_name, 'w+') as f:
             f.write('Minimum energy: {}\n'.format(min_value))
             f.write(str(x.get_string(title=table_title)))
+        print(f'Sum of % in equilibrium: {suma_fin}')
         log.info('Data correctly saved as \'{}\' in \'{}\''.format(file_name, os.getcwd()))
         return str(x)
 
