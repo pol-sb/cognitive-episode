@@ -51,8 +51,6 @@ class find_molecule_percentage():
             ordered_data_list = [None] * (len(data_list)+1)
             for molecule in data_list:
                 numer = int(sub("[^0-9]", "", molecule['name']))
-                print('numer: ', numer)
-                quit()
                 ordered_data_list[numer] = molecule 
             data_list = ordered_data_list
             for item in data_list:
@@ -62,7 +60,6 @@ class find_molecule_percentage():
         return data_list
 
     def lowest_energy_molecule(self, data_list):
-
 
         if self.user_input == '1':
             # Converts each energy value from Hartree (Ha) to kcal/mol
@@ -83,7 +80,7 @@ class find_molecule_percentage():
             min_value = min([molecule['energy'] for molecule in data_list])
             min_names = []
             for molecule in data_list:
-                molecule_data = list(molecule.values())
+                molecule_data = list(molecule-34653.804932932.values())
                 if min_value in molecule_data:
                     min_names.append(molecule_data[0])
                 molecule['energy'] -= min_value
@@ -126,7 +123,7 @@ class find_molecule_percentage():
         if self.user_input == '1':
             no1_count = 0
             for count, number in enumerate(energy_list):
-                if number == 0:# and no1_count > 0:
+                if number == 0:# no1_count > 0:
                     del boltz_list[count]
                     no1_count += 1
                     deleted_index = count
