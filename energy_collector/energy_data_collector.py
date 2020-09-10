@@ -53,7 +53,8 @@ class energy_data_collector():
                         enthalp = round(float(ENT_RE.findall(text)[-1]), 8)
                         energy_value = 'Free Energy: ' + str(free_energ) +'\nEnthalpy: ' + str(enthalp)
                         temp_dict[folder_name] = energy_value
-                    elif len([method for method in ['dft', 'mp2min', 'm062x', 'b3lyp'] if method in folder_name.lower()]) >0:
+                    elif len([method for method in ['dft', 'mp2min', 'm06', 'b3lyp'] if method in folder_name.lower()]) > 0:
+                        print('aa')
                         energy_value = round(float(DFT_RE.findall(text)[-1]), 8)
                         temp_dict[folder_name] = energy_value
 
@@ -61,7 +62,7 @@ class energy_data_collector():
                         energies_dict[molecule_name[:-4]] = [temp_dict]
                     else:
                         energies_dict[molecule_name[:-4]].append(temp_dict)
-                        
+
                 except IndexError:
                     log.e(f'Error on \'{folder_name+"/"+molecule_name}\'.')
                     temp_dict[folder_name] = 'missing value'
